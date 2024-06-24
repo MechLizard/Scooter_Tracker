@@ -1,1 +1,1 @@
-g++ -Wall -Wextra -Wuninitialized -Wpedantic -Werror src/*.cpp -o app
+g++ -Wall -Wextra -Wuninitialized -Wpedantic -Werror -g src/*.cpp -o app
