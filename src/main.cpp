@@ -8,6 +8,12 @@ enum Permissions{
     BUSINESS,
 };
 
+struct Booking{
+    unsigned int price;
+    std::string time;
+};
+
+
 
 struct Account{
     std::string email;
@@ -15,14 +21,12 @@ struct Account{
     Permissions permission;
     std::string phoneNumber;
     std::string nameOfBusiness;
+
+    std::vector<Booking> bookings;
 };
 
 
-struct Booking{
-    Account account;
-    unsigned int price;
-    std::string time;
-};
+
 
 
 void generateAccounts(std::vector<Account>& vector, unsigned int numberOfAccounts){
@@ -62,6 +66,7 @@ void printAccounts(std::vector<Account>& vec){
 
 
 int main(){
+    srand(time(0));
     std::cout<<"Hello World"<<std::endl;
     std::vector<Account> vec;
     generateAccounts(vec,155);
