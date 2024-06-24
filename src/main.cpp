@@ -31,7 +31,7 @@ struct Account{
 
 void generateAccounts(std::vector<Account>& vector, unsigned int numberOfAccounts){
     char alph[26];
-
+    Permissions permission[3] = {ADMIN,CUSTOMER,BUSINESS};    
 
     for(unsigned int i = 0; i < 26;i++){
 	alph[i] = 'A'+i;
@@ -40,7 +40,9 @@ void generateAccounts(std::vector<Account>& vector, unsigned int numberOfAccount
 
 
     for(unsigned int i = 0; i < numberOfAccounts;i++){
-	Account account;
+	Account account = {};
+
+	account.permission = permission[rand() % 3];
 	for(unsigned int i = 0; i < 10;i++){
 
 	    account.email.push_back(alph[rand() % 26]);
@@ -59,7 +61,11 @@ void generateAccounts(std::vector<Account>& vector, unsigned int numberOfAccount
 
 void printAccounts(std::vector<Account>& vec){
     for(auto& i: vec){
-	std::cout<<i.email<<std::endl;
+	std::cout<<"email: "<<i.email<<std::endl;
+	std::cout<<"pass: "<<i.password<<std::endl;
+	if(i.permission == BUSINESS){
+	    std::cout<<"Business Name: "<<i.nameOfBusiness<<std::endl;
+	}
     }
 
 }
@@ -72,8 +78,6 @@ int main(){
     generateAccounts(vec,155);
 
     printAccounts(vec);
-    
-
-    
+        
 
 }
