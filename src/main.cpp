@@ -49,6 +49,8 @@ void generateAccounts(std::vector<Account>& vector, unsigned int numberOfAccount
 	    account.password.push_back(alph[rand() % 26]);
 	    if(account.permission == BUSINESS){
 		account.nameOfBusiness.push_back(alph[rand() % 26]);
+		Booking booking = {};
+		account.bookings.push_back(booking);
 	    }
 
 	}
@@ -79,7 +81,35 @@ unsigned int hashPassword(std::string password){
     return hash;
 }
 
+void giveDiscount(Account& account, unsigned int discount){
+    if(account.permission !=BUSINESS){
+	std::cout<<"Only Business Accounts May Apply Discounts!"<<std::endl;
+	return;
+    }
 
+    for(auto& i: account.bookings){
+	if(int(i.price-discount) <=0){
+	    i.price = 0;
+	    continue;
+	}
+	i.price-=discount;
+    }
+
+
+}
+
+void printDiscountsTest(std::vector<Account>& vec){
+
+    for(unsigned int i = 0; i < vec.size();i++){
+	if(vec[i].permission == BUSINESS){
+	    std::cout<<"Price before discount "<<vec[i].bookings[0].price<<std::endl;
+	    giveDiscount(vec[i],10);
+	    std::cout<<"Price after discount "<<vec[i].bookings[0].price<<std::endl;
+	    break;
+	}
+    }
+
+}
 
 int main(){
     srand(time(0));
@@ -89,6 +119,6 @@ int main(){
 
     printAccounts(vec);
     std::cout<<"Testing hash: "<<hashPassword(vec[0].password)<<std::endl;
-        
+    printDiscountsTest(vec);    
 
 }
