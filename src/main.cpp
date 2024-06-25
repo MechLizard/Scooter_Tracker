@@ -71,6 +71,16 @@ void printAccounts(std::vector<Account>& vec){
 }
 
 
+unsigned int hashPassword(std::string password){
+    unsigned int hash = 0;
+    for(unsigned int i = 0; i < password.length();i++){
+	hash+=password[i]<<i;
+    }
+    return hash;
+}
+
+
+
 int main(){
     srand(time(0));
     std::cout<<"Hello World"<<std::endl;
@@ -78,6 +88,7 @@ int main(){
     generateAccounts(vec,155);
 
     printAccounts(vec);
+    std::cout<<"Testing hash: "<<hashPassword(vec[0].password)<<std::endl;
         
 
 }
