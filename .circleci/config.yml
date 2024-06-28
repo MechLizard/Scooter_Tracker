@@ -1,23 +1,48 @@
 version: 2.1
 
-# Define the jobs we want to run for this project
+# Tested these commands locally with Docker Desktop. To test locally, run this command:
+# docker run -it -v [location of The-Feed code on your pc]:/home/circleci/project circleci/node:erbium-bullseye-browsers-legacy
+
+# Define an executor
+executors:
+  docker_executor:
+    docker:
+      - image: circleci/node:erbium-bullseye-browsers-legacy
+
 jobs:
   build:
-    docker:
-      - image: cimg/base:2023.03
+    executor: docker_executor
     steps:
       - checkout
-      - run: echo "this is the build job"
+      # If latest node is required
+      #- run:
+      #    name: Installing Node
+      #    command: |
+      #      curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
+      #      sudo -E bash nodesource_setup.sh
+      #      sudo apt-get install -y nodejs
+      - run:
+          name: Compile Code
+          command: 'g++ -Werror src/*.cpp -o /home/circleci/project/the_feed.exe'
+      # Allows "build" environment to persist into the "test" phase
+      - persist_to_workspace:
+          root: /home/circleci/project
+          paths:
+            - the_feed.exe
   test:
-    docker:
-      - image: cimg/base:2023.03
+    executor: docker_executor
     steps:
-      - checkout
-      - run: echo "this is the test job"
+      - attach_workspace:
+          at: /home/circleci/project/
+      - run:
+          name: Run Code
+          command: '/home/circleci/project/the_feed.exe'
 
 # Orchestrate our job run sequence
 workflows:
   build_and_test:
     jobs:
       - build
-      - test
+      - test:
+          requires:
+            - build
