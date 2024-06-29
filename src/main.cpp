@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <random>
 
 enum Permissions{
     ADMIN,
@@ -8,11 +9,11 @@ enum Permissions{
     BUSINESS,
 };
 
+
 struct Booking{
     unsigned int price;
     std::string time;
 };
-
 
 
 struct Account{
@@ -24,9 +25,6 @@ struct Account{
 
     std::vector<Booking> bookings;
 };
-
-
-
 
 
 void generateAccounts(std::vector<Account>& vector, unsigned int numberOfAccounts){
@@ -81,6 +79,7 @@ unsigned int hashPassword(std::string password){
     return hash;
 }
 
+
 void giveDiscount(Account& account, unsigned int discount){
     if(account.permission !=BUSINESS){
 	std::cout<<"Only Business Accounts May Apply Discounts!"<<std::endl;
@@ -88,28 +87,27 @@ void giveDiscount(Account& account, unsigned int discount){
     }
 
     for(auto& i: account.bookings){
-	if(int(i.price-discount) <=0){
-	    i.price = 0;
-	    continue;
-	}
-	i.price-=discount;
+		if(int(i.price-discount) <=0){
+			i.price = 0;
+			continue;
+		}
+		i.price-=discount;
     }
-
-
 }
+
 
 void printDiscountsTest(std::vector<Account>& vec){
 
     for(unsigned int i = 0; i < vec.size();i++){
-	if(vec[i].permission == BUSINESS){
-	    std::cout<<"Price before discount "<<vec[i].bookings[0].price<<std::endl;
-	    giveDiscount(vec[i],10);
-	    std::cout<<"Price after discount "<<vec[i].bookings[0].price<<std::endl;
-	    break;
-	}
+		if(vec[i].permission == BUSINESS){
+			std::cout<<"Price before discount "<<vec[i].bookings[0].price<<std::endl;
+			giveDiscount(vec[i],10);
+			std::cout<<"Price after discount "<<vec[i].bookings[0].price<<std::endl;
+			break;
+		}
     }
-
 }
+
 
 int main(){
     srand(time(0));
