@@ -13,4 +13,10 @@ add_executable(The_Feed
         .gitignore
         build.bat
         build.sh
-        README.md)
+        README.md
+        test/tests.cpp)
+
+# Catch 2, unit test framework
+add_executable(tests test/tests.cpp
+        test/catch/catch_amalgamated.hpp
+        test/catch/catch_amalgamated.cpp)
