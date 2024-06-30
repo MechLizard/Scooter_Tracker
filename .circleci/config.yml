@@ -25,8 +25,9 @@ jobs:
           name: Compile Code
           # Compile just the regular program and the program with Catch2
           command: |
+            cd /home/circleci/project
             g++ -Werror src/*.cpp -o /home/circleci/project/the_feed.exe
-            g++ -Werror src/*.cpp test/*.cpp test/catch/*.cpp -o /home/circleci/project/the_feed_test.exe
+            g++ -Werror test/*.cpp test/catch/*.cpp -o /home/circleci/project/the_feed_test.exe
       # Allows "build" environment to persist into the "test" phase
       - persist_to_workspace:
           root: /home/circleci/project
